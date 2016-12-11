@@ -1,0 +1,1 @@
+Laravel Package for separate business model from architecture layer.
