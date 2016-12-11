@@ -1,0 +1,13 @@
+{
+    "name": "ftumiwan/domaincore",
+    "description": "extract your business model from architecture layers",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Frangky Tumiwan",
+            "email": "kiki.tumiwan@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
