@@ -70,6 +70,7 @@ class Scaffold
 	function buildEntity() {
 		foreach ($this->getEntitiesSchema() as $key => $value) {			
 			$this->makeEntity($value);
+			$this->makeMigration($value);
 		}
 	}
 
@@ -156,6 +157,45 @@ class Scaffold
 		}
 		return $relation;
 	}
+
+	function makeMigration($objEntity) {
+	    $table_name = strtolower(str_plural(snake_case($objEntity->title)));
+	    $tpl_dropif = 'DROP TABLE IF EXISTS '.$table_name;
+	    $tpl_fields = 'CREATE TABLE %tablename% (id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, %fields%)';
+	    $fl = "";
+	    foreach($objEntity->properties as $k=>$v) {
+	      $type = "";
+	      if ($k!=='id') {
+	        switch ($v->type) {
+	          case 'string':
+	            $type = $k.' VARCHAR(255) NOT NULL DEFAULT "", ';
+	            break;
+	          case 'integer':
+	            $type = $k.' INTEGER(12) NOT NULL, ';
+	            break;
+	          case 'decimal':
+	            $type = $k.' DECIMAL(16,2) NOT NULL, ';
+	            break;
+	          case 'date':
+	            $type = $k.' DATE, ';
+	            break;
+	          case 'timestamp':
+	            $type = $k.' TIMESTAMP, ';
+	            break;
+	        }
+	        $fl .= $type;
+	      }
+	    }
+	    $fl .= "created_at TIMESTAMP, updated_at TIMESTAMP";
+	    $_tpl_fields = str_replace('%fields%',$fl,$tpl_fields);
+	    $_tpl_fields2 = str_replace('%tablename%',$table_name,$_tpl_fields);
+
+	    $db = app('db');
+	    $db->statement($tpl_dropif);
+	    $db->statement($_tpl_fields2);
+
+	    return true;
+  }
 
 
 
