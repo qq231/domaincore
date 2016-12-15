@@ -9,6 +9,6 @@ class %containername% extends BusinessModel
 {	
 	function __construct() {
 		parent::__construct('%domainname%');
-		$this->container = %containerrelation%
+		$this->container = %containerrelation%;
 	}
 }
