@@ -14,7 +14,7 @@ class DomainCoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadRoutesFrom(__DIR__.'/../Routes.php');        
     }
 
     /**
@@ -23,7 +23,7 @@ class DomainCoreServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {
+    {        
         $this->app->singleton('command.ftumiwan.domainmodel',function()
         {
             return new DomainModel;
@@ -31,4 +31,6 @@ class DomainCoreServiceProvider extends ServiceProvider
 
         $this->commands('command.ftumiwan.domainmodel');
     }
+
+    
 }
