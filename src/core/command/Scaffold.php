@@ -172,22 +172,22 @@ class Scaffold
 	            $type = $k.' VARCHAR(255) NOT NULL DEFAULT "", ';
 	            break;
 	          case 'integer':
-	            $type = $k.' INTEGER(12) NOT NULL, ';
+	            $type = $k.' INTEGER(12) NOT NULL DEFAULT 0, ';
 	            break;
 	          case 'decimal':
-	            $type = $k.' DECIMAL(16,2) NOT NULL, ';
+	            $type = $k.' DECIMAL(16,2) NOT NULL DEFAULT 0, ';
 	            break;
 	          case 'date':
-	            $type = $k.' DATE, ';
+	            $type = $k.' DATE NULL DEFAULT NULL, ';
 	            break;
 	          case 'timestamp':
-	            $type = $k.' TIMESTAMP, ';
+	            $type = $k.' TIMESTAMP NULL DEFAULT NULL, ';
 	            break;
 	        }
 	        $fl .= $type;
 	      }
 	    }
-	    $fl .= "created_at TIMESTAMP, updated_at TIMESTAMP";
+	    $fl .= "created_at TIMESTAMP NULL DEFAULT NULL, updated_at TIMESTAMP NULL DEFAULT NULL";
 	    $_tpl_fields = str_replace('%fields%',$fl,$tpl_fields);
 	    $_tpl_fields2 = str_replace('%tablename%',$table_name,$_tpl_fields);
 
@@ -226,7 +226,7 @@ class Scaffold
 	}
 
 
-	public function makeRoute() {
+	function makeRoute() {
 	    $_route = "
 	    Route::post('api/%routename%', function (Request \$request){
 			return (new Gate((new App\\Domain\\%domainname%\\Context())))->httpComing(\$request);
@@ -241,9 +241,5 @@ class Scaffold
 	    file_put_contents($_path."/Routes.php",$routeContent);
   	}
 
-
-
-	
-
-
+  	
 }

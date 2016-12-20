@@ -1,0 +1,10 @@
+{
+	"schema":[
+		{
+			"title":"NotaPenjualan"
+			,"description":""
+			,"single":[["Penjualan",0],["TipePenjualan",1]]
+			,"list":[["PenjualanDetail",0]]
+		}
+	]
+}
