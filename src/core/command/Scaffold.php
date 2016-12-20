@@ -15,7 +15,7 @@ class Scaffold
 		$this->domainname = $domainname;
 		$this->pathdomain = base_path('app/Domain/'.$domainname);
 		$this->pathTpl = base_path('packages/ftumiwan/domaincore/src/tpl');
-		$this->pathschema = base_path('packages/ftumiwan/domaincore/schema/'.$domainname);
+		$this->pathschema = base_path('packages/ftumiwan/schema/'.$domainname);
 	}
 
 	public function new() {
