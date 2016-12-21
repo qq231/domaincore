@@ -8,6 +8,10 @@
             "email": "kiki.tumiwan@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "FTumiwan\\DomainCore\\": "src/"
+        }
+    }
 }
