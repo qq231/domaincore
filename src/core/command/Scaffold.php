@@ -18,7 +18,7 @@ class Scaffold
 		$this->pathschema = base_path('packages/ftumiwan/schema/'.$domainname);
 	}
 
-	public function new() {
+	public function build() {
 		//checking folder if exists
 		$this->checkingFolder();
 		$this->buildEntity();

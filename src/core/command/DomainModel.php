@@ -34,6 +34,6 @@ class DomainModel extends Command
     {
         $domainname = $this->argument('domainname');
         $scaff = new Scaffold($domainname);
-        $scaff->new();
+        $scaff->build();
     }
 }
