@@ -233,7 +233,7 @@ class Scaffold
 		});
 	    ";
 	    $_domain = str_replace('_','-',snake_case($this->domainname));
-	    $_path = base_path('packages/ftumiwan/domaincore/src');
+	    $_path = base_path('vendor/ftumiwan/domaincore/src');
 	    $webroute = file_get_contents($_path."/Routes.php");
 	    $r_data = str_replace("%routename%",$_domain,$_route);
 	    $r_data_ = str_replace("%domainname%",$this->domainname,$r_data);
