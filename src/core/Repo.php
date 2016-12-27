@@ -45,12 +45,17 @@ class Repo
     }
   }
   public function search($fill) {
+    if (isset($fill['limit'])) {
+      $l = $fill['limit'];
+    } else {
+      $l = 25;
+    }
     $m = $this->entity;
     $qr = $m::select();
-    foreach($fill as $key=>$val) {
+    foreach($fill['filter'] as $key=>$val) {
       $qr->where($val['fl'],$val['opr'],$val['vl']);
     }
-    return $qr->get();
+    return $qr->paginate($l);
   }
   public function find($id) {
     $m = $this->entity;
