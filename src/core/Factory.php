@@ -53,6 +53,7 @@ class Factory
 					break;
 				case 'search':
 					$hs = $repo->search($value);
+					return $hs;
 					break;
 				case 'find':
 					$hs = $repo->find($value);
