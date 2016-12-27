@@ -51,6 +51,9 @@ class Factory
 					$this->trigger->run('deleteWhere',$entity,$hs,$value);
 					return $hs;
 					break;
+				case 'search':
+					$hs = $repo->search($value);
+					break;
 				case 'find':
 					$hs = $repo->find($value);
 					$this->trigger->run('find',$entity,$hs,$value);

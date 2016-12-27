@@ -44,6 +44,14 @@ class Repo
       return "ok";
     }
   }
+  public function search($fill) {
+    $m = $this->entity;
+    $qr = $m::select();
+    foreach($fill as $key=>$val) {
+      $qr->where($key['field'],$key['operator'],$key['val']);
+    }
+    return $qr->get();
+  }
   public function find($id) {
     $m = $this->entity;
     return $m::find($id);
