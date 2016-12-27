@@ -48,7 +48,7 @@ class Repo
     $m = $this->entity;
     $qr = $m::select();
     foreach($fill as $key=>$val) {
-      $qr->where($key['field'],$key['operator'],$key['val']);
+      $qr->where($key['fl'],$key['opr'],$key['vl']);
     }
     return $qr->get();
   }
