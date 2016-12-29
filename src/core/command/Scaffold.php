@@ -168,10 +168,26 @@ class Scaffold
 		if (!Schema::hasTable($table_name)) {
 			Schema::create($table_name,function(Blueprint $table) use ($objEntity){			
 				foreach ($objEntity->properties as $key => $value) {	
-					$table->{$value->type}($key);
+					$dvalue = null;
+					if ($value->type=='integer' or $value->type=='decimal' or $value->type=='float' or $value->type=='tinyInteger' 
+						or $value->type=='double' or $value->type=='increments') {
+						$dvalue = 0;
+					}
+					if ($value->type=='string' or $value->type=='char') {
+						$dvalue = '';
+					}
+					if (!is_null($dvalue)) {
+						if ($value->type!=='increments') {
+							$table->{$value->type}($key)->default($dvalue);	
+						} else {
+							$table->{$value->type}($key);
+						}						
+					} else {
+						$table->{$value->type}($key)->nullable();
+					}					
 				}
-				$table->timestamp('created_at');	
-				$table->timestamp('updated_at');	
+				$table->timestamp('created_at')->nullable();	
+				$table->timestamp('updated_at')->nullable();	
 				if (!empty($objEntity->index)) {
 					foreach ($objEntity->index as $key) {
 						$table->index($key,$key.'idx');	
@@ -183,7 +199,23 @@ class Scaffold
 				if (Schema::hasColumn($table_name,$key)) {
 				} else {
 					Schema::table($table_name,function($table) use ($value,$key){
-						$table->{$value->type}($key);	
+						$dvalue = null;
+						if ($value->type=='integer' or $value->type=='decimal' or $value->type=='float' or $value->type=='tinyInteger' 
+							or $value->type=='double' or $value->type=='increments') {
+							$dvalue = 0;
+						}
+						if ($value->type=='string' or $value->type=='char') {
+							$dvalue = '';
+						}
+						if (!is_null($dvalue)) {
+							if ($value->type!=='increments') {
+								$table->{$value->type}($key)->default($dvalue);		
+							} else {
+								$table->{$value->type}($key);
+							}							
+						} else {
+							$table->{$value->type}($key)->nullable();
+						}						
 					});					
 				}							
 			}
