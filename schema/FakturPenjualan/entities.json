@@ -5,7 +5,7 @@
       ,"description":""
       ,"properties":{
         "id":{
-          "type":"autoincremet"
+          "type":"increments"
           ,"description":""
         }
         ,"ket":{
@@ -21,7 +21,7 @@
       ,"description":""
       ,"properties":{
         "id":{
-          "type":"autoincremet"
+          "type":"increments"
           ,"description":""
         }
         ,"tgl":{
@@ -65,7 +65,7 @@
       ,"description":""
       ,"properties":{
         "id":{
-          "type":"autoincremet"
+          "type":"increments"
           ,"description":""
         }
         ,"tgl":{

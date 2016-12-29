@@ -1,6 +1,10 @@
 <?php
 namespace FTumiwan\DomainCore\Command;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use DB;
+
 /**
 * 		
 */
@@ -160,43 +164,55 @@ class Scaffold
 	}
 
 	function makeMigration($objEntity) {
-	    $table_name = strtolower(str_plural(snake_case($objEntity->title)));
-	    $tpl_dropif = 'DROP TABLE IF EXISTS '.$table_name;
-	    $tpl_fields = 'CREATE TABLE %tablename% (id INT(12) UNSIGNED AUTO_INCREMENT PRIMARY KEY, %fields%)';
-	    $fl = "";
-	    foreach($objEntity->properties as $k=>$v) {
-	      $type = "";
-	      if ($k!=='id') {
-	        switch ($v->type) {
-	          case 'string':
-	            $type = $k.' VARCHAR(255) NOT NULL DEFAULT "", ';
-	            break;
-	          case 'integer':
-	            $type = $k.' INTEGER(12) NOT NULL DEFAULT 0, ';
-	            break;
-	          case 'decimal':
-	            $type = $k.' DECIMAL(16,2) NOT NULL DEFAULT 0, ';
-	            break;
-	          case 'date':
-	            $type = $k.' DATE NULL DEFAULT NULL, ';
-	            break;
-	          case 'timestamp':
-	            $type = $k.' TIMESTAMP NULL DEFAULT NULL, ';
-	            break;
-	        }
-	        $fl .= $type;
-	      }
-	    }
-	    $fl .= "created_at TIMESTAMP NULL DEFAULT NULL, updated_at TIMESTAMP NULL DEFAULT NULL";
-	    $_tpl_fields = str_replace('%fields%',$fl,$tpl_fields);
-	    $_tpl_fields2 = str_replace('%tablename%',$table_name,$_tpl_fields);
+		$table_name = strtolower(str_plural(snake_case($objEntity->title)));
+		if (!Schema::hasTable($table_name)) {
+			Schema::create($table_name,function(Blueprint $table) use ($objEntity){			
+				foreach ($objEntity->properties as $key => $value) {	
+					$table->{$value->type}($key);
+				}
+				$table->timestamp('created_at');	
+				$table->timestamp('updated_at');	
+				if (!empty($objEntity->index)) {
+					foreach ($objEntity->index as $key) {
+						$table->index($key,$key.'idx');	
+					}						
+				}					
+			});
+		} else {
+			foreach ($objEntity->properties as $key => $value) {		
+				if (Schema::hasColumn($table_name,$key)) {
+				} else {
+					Schema::table($table_name,function($table) use ($value,$key){
+						$table->{$value->type}($key);	
+					});					
+				}							
+			}
+			if (!empty($objEntity->index)) {
+				Schema::table($table_name,function(Blueprint $table) use($objEntity,$table_name){
+					foreach ($objEntity->index as $key) {
+						//--check key if exists
+						$ptt = 'SHOW KEYS
+						        FROM '.$table_name.' 
+						        WHERE Key_name= "'.$key.'idx"';
+						$keyExists = DB::select(
+						    DB::raw(
+						        $ptt
+						    )
+						);
+						//--
+						if (!empty($keyExists)) {
+							$table->dropIndex($key.'idx');	
+						}						
+						$table->index($key,$key.'idx');	
+					}					
+				});
+			}
+		}
+		
+		return true;
+	}
 
-	    $db = app('db');
-	    $db->statement($tpl_dropif);
-	    $db->statement($_tpl_fields2);
-
-	    return true;
-  }
+	
 
   public function contentManipulation($text_file,$data,$flag) { //text_file: text file, data: content inserted, flag: identify begin to end
 		$m = "";
