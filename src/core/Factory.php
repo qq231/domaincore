@@ -37,7 +37,7 @@ class Factory
 					return $hs;
 					break;
 				case 'update':
-					$hs = $repo->update($value[0],$value[1]['id']);
+					$hs = $repo->update($value['data'],$value['id']);
 					$this->trigger->run('update',$entity,$hs,$value);
 					return $hs;
 					break;
