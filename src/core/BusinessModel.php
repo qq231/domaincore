@@ -65,6 +65,21 @@ class BusinessModel implements iBm
 			return $hs;
 		}
 	}
+	public function loadAll($value) {
+		if (empty($this->container)) {
+			return false;
+		} else {
+			$container = $this->getElementContainer();
+			$base = $container[0];
+			array_splice($container,0,1); //remove first element;
+			for ($i=0; $i < count($container) ; $i++) { 
+				$container[$i] = lcfirst($container[$i]);
+			}
+			$hs = $this->factory->execute('loadAll',$base,['pr'=>$value,'with'=>$container]);
+			$this->triggerBm->run('loadAll',$this->implementObject,$hs,$value);
+			return $hs;
+		}
+	}
 	public function queryAnd($value) {
 		if (empty($this->container)) {
 			return false;
@@ -79,7 +94,7 @@ class BusinessModel implements iBm
 			$this->triggerBm->run('queryAnd',$this->implementObject,$hs,$value);
 			return $hs;
 		}
-	}
+	}	
 	public function update($value) {
 		if (empty($this->container)) {
 			return false;

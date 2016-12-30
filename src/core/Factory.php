@@ -79,7 +79,7 @@ class Factory
 					$hs = $repo->loadAll($value);
 					$this->trigger->run('loadAll',$entity,$hs,$value);
 					return $hs;
-					break;
+					break;				
 				default:
 					throw new Exception("action execute at entity not found");					
 					break;

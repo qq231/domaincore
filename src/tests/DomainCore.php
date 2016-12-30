@@ -47,6 +47,12 @@ class DomainCore extends TestCase
 		echo $x->pelanggan;
 	}
 
+	public function testLoadAllBusinessModel() {
+		$mb = new NotaPenjualan();
+		$x = $mb->loadAll(['limit'=>3]);
+		print_r($x);
+	}
+
 	public function testQueryAndBusinessModel() {
 		$mb = new NotaPenjualan();
 		$x = $mb->queryAnd(['pelanggan_id'=>'20']);

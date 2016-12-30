@@ -90,24 +90,26 @@ class Repo
     }
     $m = $this->entity;    
     $_m = $m::select();
-    if (isset($pr['withparent'])) {
-      if ($pr['withparent']==true) {    
-        if (count((new $m())->parentEntity())>0) {
-          $_with = [];          
-          foreach((new $m())->parentEntity() as $vp) {       
-            $_with[] = $vp;
-          }
-          return $_m->with($_with)->paginate($l);  
-        } else {
-          return $_m->paginate($l);
-        }
-      } else {
-        return $_m->paginate($l);
-      }
+    if (isset($pr['with'])) {
+      return $_m->with($pr['with'])->paginate($l);
+      // if ($pr['withparent']==true) {    
+      //   if (count((new $m())->parentEntity())>0) {
+      //     $_with = [];          
+      //     foreach((new $m())->parentEntity() as $vp) {       
+      //       $_with[] = $vp;
+      //     }
+      //     return $_m->with($_with)->paginate($l);  
+      //   } else {
+      //     return $_m->paginate($l);
+      //   }
+      // } else {
+      //   return $_m->paginate($l);
+      // }
     } else {
       return $_m->paginate($l);
     }
   }
+
 }
 
 
