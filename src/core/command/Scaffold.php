@@ -88,7 +88,9 @@ class Scaffold
 	function makeContext() {
 		$ctx = file_get_contents($this->pathTpl."/Context.tpl");
 		$ctx_ = str_replace("%domainname%",$this->domainname,$ctx);
-		file_put_contents($this->pathdomain."/Context.php",$ctx_);
+		if (!file_exists($this->pathdomain."/Context.php")) {
+			file_put_contents($this->pathdomain."/Context.php",$ctx_);
+		}		
 	}
 
 	function makeFactorySignal() {
