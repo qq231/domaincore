@@ -75,7 +75,9 @@ class BusinessModel implements iBm
 			for ($i=0; $i < count($container) ; $i++) { 
 				$container[$i] = lcfirst($container[$i]);
 			}
-			$hs = $this->factory->execute('loadAll',$base,['pr'=>$value,'with'=>$container]);
+			$value['with'] = $container;
+			//$hs = $this->factory->execute('loadAll',$base,['pr'=>$value,'with'=>$container]);
+			$hs = $this->factory->execute('loadAll',$base,$value);
 			$this->triggerBm->run('loadAll',$this->implementObject,$hs,$value);
 			return $hs;
 		}
