@@ -26,7 +26,7 @@ class Factory
 		//entity = is entity name
 		//value = is value..... if value with parameter, use array... example: [['nama'=>'kiki','alamat'=>'manado'],['id'=>1]]		
 		if ($this->checkEntityIsFound($entity)) {
-			$repo = new Repo("App\\Domain\\".$this->domain."\\entities\\".$entity);
+			$repo = new Repo("App\\Domain\\".$this->domain."\\Entities\\".$entity);
 			switch ($action) {
 				case 'getSchema':
 					return $repo->getSchema($entity);
