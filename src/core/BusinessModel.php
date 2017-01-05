@@ -107,7 +107,7 @@ class BusinessModel implements iBm
 			for ($i=0; $i < count($container) ; $i++) { 
 				$container[$i] = lcfirst($container[$i]);
 			}
-			$hs = $this->factory->execute('search',$base,['pr'=>$value,'with'=>$container]);
+			$hs = $this->factory->execute('searchContainer',$base,['pr'=>$value,'with'=>$container]);
 			$this->triggerBm->run('search',$this->implementObject,$hs,$value);
 			return $hs;
 		}

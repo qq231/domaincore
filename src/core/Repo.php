@@ -57,6 +57,19 @@ class Repo
     }
     return $qr->paginate($l);
   }
+  public function searchContainer($fill) {
+    if (isset($fill['pr']['limit'])) {
+      $l = $fill['pr']['limit'];
+    } else {
+      $l = 25;
+    }
+    $m = $this->entity;
+    $qr = $m::select();
+    foreach($fill['pr']['filter'] as $key=>$val) {
+      $qr->where($val['fl'],$val['opr'],$val['vl']);
+    }
+    return $qr->with($fill['with'])->paginate($l);
+  }
   public function find($id) {
     $m = $this->entity;
     return $m::find($id);

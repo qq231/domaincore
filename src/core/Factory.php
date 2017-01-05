@@ -55,6 +55,10 @@ class Factory
 					$hs = $repo->search($value);
 					return $hs;
 					break;
+				case 'searchContainer':
+					$hs = $repo->searchContainer($value);
+					return $hs;
+					break;
 				case 'find':
 					$hs = $repo->find($value);
 					$this->trigger->run('find',$entity,$hs,$value);
