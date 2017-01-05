@@ -80,7 +80,7 @@ class Repo
     foreach($fill['pr'] as $key=>$val) {
       $qr->where($key,'=',$val);
     }
-    return $qr->with($fill['with'])->get();
+    return $qr->with($fill['with'])->paginate(25);
   }
   public function loadAll($pr) {
     if (isset($pr['limit'])) {
