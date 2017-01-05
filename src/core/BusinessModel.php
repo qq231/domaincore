@@ -96,6 +96,21 @@ class BusinessModel implements iBm
 			$this->triggerBm->run('queryAnd',$this->implementObject,$hs,$value);
 			return $hs;
 		}
+	}
+	public function search($value) {
+		if (empty($this->container)) {
+			return false;
+		} else {
+			$container = $this->getElementContainer();
+			$base = $container[0];
+			array_splice($container,0,1); //remove first element;
+			for ($i=0; $i < count($container) ; $i++) { 
+				$container[$i] = lcfirst($container[$i]);
+			}
+			$hs = $this->factory->execute('search',$base,['pr'=>$value,'with'=>$container]);
+			$this->triggerBm->run('search',$this->implementObject,$hs,$value);
+			return $hs;
+		}
 	}	
 	public function update($value) {
 		if (empty($this->container)) {
