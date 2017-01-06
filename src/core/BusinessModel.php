@@ -112,18 +112,37 @@ class BusinessModel implements iBm
 			return $hs;
 		}
 	}	
+
+	function cleanFieldsRelation($entity) {
+		foreach ($this->container['single'] as $value) {
+			$sc = strtolower(snake_case($value[0]));
+			if (array_key_exists($sc,$entity['data'])) {
+				unset($entity['data'][$sc]);
+			};			
+		}
+		foreach ($this->container['list'] as $value) {
+			$sc = strtolower(snake_case($value[0]));
+			if (array_key_exists($sc,$entity['data'])) {
+				unset($entity['data'][$sc]);
+			};
+		}
+		return $entity;
+	}
+
 	public function update($value) {
 		if (empty($this->container)) {
 			return false;
 		} else {
 			$container = $this->getElementContainer();
-			$base = $container[0]; //get first element for base						
-			$this->factory->execute('update',$base,$value[$base]);
+			$base = $container[0]; //get first element for base
+			$_val = $this->cleanFieldsRelation($value[$base]);						
+			$this->factory->execute('update',$base,$_val);
 			foreach ($this->container['single'] as $v) {
 				if ($v[0]!==$base) { //skip if is base element
 					$entity = $v[0];
-					if ($v[1]==0) { //can read/write						
-						$this->factory->execute('update',$entity,$value[$entity]);
+					if ($v[1]==0) { //can read/write			
+						$_val = $this->cleanFieldsRelation($value[$entity]);		
+						$this->factory->execute('update',$entity,$_val);
 					}
 				}				
 			}
@@ -131,7 +150,8 @@ class BusinessModel implements iBm
 				$entity = $v[0];
 				if ($v[1]==0) { //can read/write
 					foreach ($value[$entity] as $key => $val) {
-						$this->factory->execute('update',$entity,$val);
+						$_val = $this->cleanFieldsRelation($val);
+						$this->factory->execute('update',$entity,$_val);
 					}
 				}
 			}

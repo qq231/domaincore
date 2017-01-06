@@ -50,7 +50,7 @@ class DomainCore extends TestCase
 	public function testLoadAllBusinessModel() {
 		$mb = new NotaPenjualan();
 		$x = $mb->loadAll(['limit'=>3]);
-		print_r($x);
+		//print_r($x);
 	}
 
 	public function testQueryAndBusinessModel() {
@@ -61,27 +61,36 @@ class DomainCore extends TestCase
 
 	public function testUpdateBusinessModel() {
 		$mb = new NotaPenjualan();
-		$data = ['Penjualan'=>[['tgl'=>'2016-10-11','pelanggan_id'=>20
-							,'pelanggan'=>'CV Pengganti'
-							,'brutto'=>120000,'discount'=>80000,'netto'=>87000
-							,'stat_posting'=>0,'tipe_penjualan_id'=>1],['id'=>1]],
-				'PenjualanDetail'=>[
-						[['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Le Mineral 500ml di ubah','qty'=>2
-						,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
-						,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
-						,'netto'=>250000],['id'=>1]]
-						,[['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Coca Cola Can di ubah','qty'=>2
-						,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
-						,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
-						,'netto'=>250000],['id'=>2]]
+		$data = ['Penjualan'=>['data'=>
+								['tgl'=>'2016-10-11','pelanggan_id'=>20
+									,'pelanggan'=>'CV Pengganti'
+									,'brutto'=>120000,'discount'=>80000,'netto'=>87000
+									,'stat_posting'=>0,'tipe_penjualan'=>null,'tipe_penjualan_id'=>1],
+								'id'=>1
+					],
+					'PenjualanDetail'=>[
+						['data'=>
+							['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Le Mineral 500ml di ubah','qty'=>2
+								,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
+								,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
+								,'netto'=>250000],
+							'id'=>1
+						]
+						,['data'=>
+							['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Coca Cola Can di ubah','qty'=>2
+								,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
+								,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
+								,'netto'=>250000],
+							'id'=>2
+						]
 					]
 				];
 		$x = $mb->update($data);
 	}
 
 	public function testDeleteBusinessModel() {
-		$mb = new NotaPenjualan();
-		$mb->delete(3);
+		// $mb = new NotaPenjualan();
+		// $mb->delete(3);
 	}
 
 	// public function testBridge() {
