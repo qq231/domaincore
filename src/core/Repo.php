@@ -53,7 +53,13 @@ class Repo
     $m = $this->entity;
     $qr = $m::select();
     foreach($fill['filter'] as $key=>$val) {
-      $qr->where($val['fl'],$val['opr'],$val['vl']);
+      if (isset($val['lgopr'])) {
+        if ($val['lgopr']!=';'){
+          $qr->where($val['fl'],$val['opr'],$val['vl'],$val['lgopr']);  
+        }
+      } else {
+        $qr->where($val['fl'],$val['opr'],$val['vl']);
+      }      
     }
     return $qr->paginate($l);
   }
@@ -66,7 +72,13 @@ class Repo
     $m = $this->entity;
     $qr = $m::select();
     foreach($fill['pr']['filter'] as $key=>$val) {
-      $qr->where($val['fl'],$val['opr'],$val['vl']);
+      if (isset($val['lgopr'])) {
+        if ($val['lgopr']!=';'){
+          $qr->where($val['fl'],$val['opr'],$val['vl'],$val['lgopr']);  
+        }
+      } else {
+        $qr->where($val['fl'],$val['opr'],$val['vl']);
+      }
     }
     return $qr->with($fill['with'])->paginate($l);
   }
