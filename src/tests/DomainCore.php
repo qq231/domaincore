@@ -73,15 +73,22 @@ class DomainCore extends TestCase
 							['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Le Mineral 500ml di ubah','qty'=>2
 								,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
 								,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
-								,'netto'=>250000],
+								,'netto'=>250000,'penjualan_id'=>1],
 							'id'=>1
 						]
 						,['data'=>
 							['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Coca Cola Can di ubah','qty'=>2
 								,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
 								,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
-								,'netto'=>250000],
+								,'netto'=>250000,'penjualan_id'=>1],
 							'id'=>2
+						]
+						,['data'=>
+							['tgl'=>'2016-10-12','barang_id'=>1,'barang'=>'Coca Cola Can di ubah sekali lagi','qty'=>2
+								,'satuan'=>'pcs','isi'=>10,'harga_jual'=>180000,'harga_pokok'=>200000
+								,'brutto'=>2888100,'discount_config'=>'10','discount_rp'=>100000
+								,'netto'=>250000,'penjualan_id'=>0],
+							'id'=>0
 						]
 					]
 				];

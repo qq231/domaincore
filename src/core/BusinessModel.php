@@ -135,6 +135,8 @@ class BusinessModel implements iBm
 		} else {
 			$container = $this->getElementContainer();
 			$base = $container[0]; //get first element for base
+			$parent_id = strtolower(snake_case($base))."_id";
+			$_parent_id = $value[$base]['id'];
 			$_val = $this->cleanFieldsRelation($value[$base]);						
 			$this->factory->execute('update',$base,$_val);
 			foreach ($this->container['single'] as $v) {
@@ -151,7 +153,15 @@ class BusinessModel implements iBm
 				if ($v[1]==0) { //can read/write
 					foreach ($value[$entity] as $key => $val) {
 						$_val = $this->cleanFieldsRelation($val);
-						$this->factory->execute('update',$entity,$_val);
+						$_val['data'][$parent_id] = $_parent_id;
+						//$this->factory->execute('update',$entity,$_val);
+						
+						//-- khusus untuk detail, polanya data dihapus kemudian diinsert lagi
+						//-- agar bisa tercover untuk yang menghapus maupun menginput row data baru
+						if (isset($_val['id']) and !is_null($_val['id'])) {
+							$this->factory->execute('delete',$entity,$_val['id']);
+						}						
+						$this->factory->execute('store',$entity,$_val['data']);
 					}
 				}
 			}
