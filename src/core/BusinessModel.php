@@ -151,16 +151,12 @@ class BusinessModel implements iBm
 			foreach ($this->container['list'] as $v) {
 				$entity = $v[0];
 				if ($v[1]==0) { //can read/write
+					//-- khusus untuk detail, polanya data dihapus kemudian diinsert lagi
+					//-- agar bisa tercover untuk yang menghapus maupun menginput row data baru
+					$this->factory->execute('deleteWhere',$entity,[$parent_id=>$_parent_id]);		
 					foreach ($value[$entity] as $key => $val) {
 						$_val = $this->cleanFieldsRelation($val);
-						$_val['data'][$parent_id] = $_parent_id;
-						//$this->factory->execute('update',$entity,$_val);
-						
-						//-- khusus untuk detail, polanya data dihapus kemudian diinsert lagi
-						//-- agar bisa tercover untuk yang menghapus maupun menginput row data baru
-						if (isset($_val['id']) and !is_null($_val['id'])) {
-							$this->factory->execute('delete',$entity,$_val['id']);
-						}						
+						$_val['data'][$parent_id] = $_parent_id;										
 						$this->factory->execute('store',$entity,$_val['data']);
 					}
 				}
